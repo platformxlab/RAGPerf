@@ -1,4 +1,4 @@
-# RASB: RAG-based AI System Benchmakring Framework
+# RASB: RAG-based AI System Benchmarking Framework
 
 **RASB** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
@@ -14,13 +14,13 @@
 [![Code style: clang-format](https://img.shields.io/badge/C/C++_Code_Style-clang--format-2a3e50?style=flat&logo=llvm&logoColor=cccccc)](resource/clang_format/.clang-format)
 [![Code style: black](https://img.shields.io/badge/Python_Code_Style-black-000000?style=flat&logo=black&logoColor=ffffff)](resource/black_format/.black-format)
 
-## Features
+## Key Features
 
-**🚀 Holistic System-Centric Benchmarking**: RASB moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdown (retrieval vs. generation), and hardware efficiency, helping you identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
+**🚀 Holistic System-Centric Benchmarking**: RASB moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdown, and hardware efficiency, helping you identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
 
-**🧩 Modular Architecture**: RASB employs a configuration-driven design that abstracts the entire RAG pipeline—Embedding, Vector Database, Reranking, and Generation—behind uniform interfaces. You can seamlessly swap components—switching from Milvus to LanceDB, or from vLLM to OpenAI APIs—without rewriting code. This enables fine-grained analysis of specific component trade-offs.
+**🧩 Modular Architecture**: RASB employs a configuration-driven design that abstracts the entire RAG pipeline—Embedding, Vector Database, Reranking, and Generation—behind uniform interfaces. You can seamlessly swap components—switching from Milvus to LanceDB, or from ChatGPT to Qwen—without rewriting code. This enables fine-grained analysis of specific component trade-offs.
 
-**📊 Detailed Full-Stack Profiling**: RASB integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory hierarchy pressure (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between the VectorDB and LLM.
+**📊 Detailed Full-Stack Profiling**: RASB integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory usage (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between RAG components.
 
 **🔄 Dynamic Workload Generation**: Simulates the evolution of real-world knowledge bases. The workload generator can interleave standard search queries with insert, update, and delete operations. This allows you to stress-test how a RAG system handles high-concurrency requests while maintaining data freshness.
 
@@ -31,8 +31,8 @@
 <!-- omit from toc -->
 ## Table of Contents
 
-- [RASB: RAG-based AI System Benchmakring Framework](#rasb-rag-based-ai-system-benchmakring-framework)
-  - [Features](#features)
+- [RASB: RAG-based AI System Benchmarking Framework](#rasb-rag-based-ai-system-benchmarking-framework)
+  - [Key Features](#key-features)
   - [Installation](#installation)
     - [1) Create a virtual environment](#1-create-a-virtual-environment)
     - [2) Python dependencies](#2-python-dependencies)
