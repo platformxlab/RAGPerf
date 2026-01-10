@@ -1,4 +1,4 @@
-# RAGPerf: RAG-based AI System Benchmarking Framework
+# RAGPerf: A RAG-based AI System Benchmarking Framework
 
 **RAGPerf** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
