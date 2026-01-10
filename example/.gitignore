@@ -1,0 +1,14 @@
+# possible output directories
+**/log/
+**/output/
+**/output*
+
+# output logs
+*.log
+# output protobuf binary data files
+*.pb.bin
+# output figures
+*.png
+*.jpg
+*.jpeg
+*.gif

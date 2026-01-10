@@ -1,0 +1,48 @@
+MSys:
+  system:
+    output_dir: ${{ pylogger.log_dirpath }}
+    default_sample_period_ms: 100
+  meter:
+    - type: CPUMeter
+      # name: CPU Monitoring
+    - type: DiskMeter
+      # name: Disk Monitoring
+      devices:
+        ${{ - this_process.used_disks }}
+        ${{ - vdbs.used_disks }}
+    - type: MemMeter
+      # name: Memory Monitoring
+      probes:
+        - ${{ mem_mon.probe.MEM_BASIC }}
+        - ${{ mem_mon.probe.MEM_KERNEL_CACHE }}
+        - ${{ mem_mon.probe.MEM_ACTIVE_INACTIVE }}
+        - ${{ mem_mon.probe.MEM_SWAP }}
+        - ${{ mem_mon.probe.MEM_DIRTY_WRITEBACK }}
+        - ${{ mem_mon.probe.MEM_TYPE }}
+        - ${{ mem_mon.probe.MEM_DIRECT_MAP }}
+    - type: GPUMeter
+      # name: GPU Monitoring
+      gpu_ids:
+        ${{ - gpus.all_gpus }}
+      nvml_metrics: []
+      gpm_metrics:
+        - ${{ gpu_mon.probe.GPM_SM_UTIL }}
+        - ${{ gpu_mon.probe.GPM_SM_OCCUPANCY }}
+        - ${{ gpu_mon.probe.GPM_PCIE_TX_PER_SEC }}
+        - ${{ gpu_mon.probe.GPM_PCIE_RX_PER_SEC }}
+        - ${{ gpu_mon.probe.GPM_DRAM_BW_UTIL }}
+        - ${{ gpu_mon.probe.GPM_INTEGER_UTIL }}
+        - ${{ gpu_mon.probe.GPM_FP16_UTIL }}
+        - ${{ gpu_mon.probe.GPM_FP32_UTIL }}
+        - ${{ gpu_mon.probe.GPM_FP64_UTIL }}
+        - ${{ gpu_mon.probe.GPM_ANY_TENSOR_UTIL }}
+        - ${{ gpu_mon.probe.GPM_GRAPHICS_UTIL }}
+    - type: ProcMeter
+      # name: Process Monitoring
+      pids:
+        ${{ - this_process.pids }}
+        ${{ - vdbs.pids }}
+      probes:
+        - ${{ proc_mon.probe.STAT }}
+        - ${{ proc_mon.probe.STATM }}
+        - ${{ proc_mon.probe.IO }}

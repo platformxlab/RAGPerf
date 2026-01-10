@@ -1,0 +1,119 @@
+message PerProcessGPUMetrics {
+    optional uint32 pid                     = 1;
+    optional uint64 used_gpu_memory         = 2;
+}
+
+message PerGPUMetrics {
+    repeated double NVML_metrics_values                   = 1;
+    repeated double GPM_metrics_values                    = 2;
+    repeated PerProcessGPUMetrics per_process_gpu_metrics = 3;
+}
+
+message GPUMetrics {
+    optional uint64        timestamp       = 1;
+    repeated PerGPUMetrics per_gpu_metrics = 2;
+}
+
+message GPUMetricsTimeSeries {
+    repeated GPUMetrics metrics = 1;
+}
+
+message CUDACC {
+    optional int32 major = 1;
+    optional int32 minor = 2;
+}
+
+message GPUProperties {
+    optional string dev_name           = 1;
+    optional string bus_id             = 2;
+    optional CUDACC compute_capability = 3;
+    optional int32  link_generation    = 4;
+    optional int32  link_width         = 5;
+}
+
+message GPUMetadata {
+    enum NVMLProbe {
+        NVML_PCIe_throughput = 0;
+        NVML_METRIC_MAX      = 1;
+    }
+
+    // directly copied from pynvml.py, https://pythonhosted.org/nvidia-ml-py/
+    enum GPMProbe {
+        GPM_UNSPECIFIED             = 0;  // Invalid metric, placeholder for 0
+        GPM_GRAPHICS_UTIL           = 1;  // Percentage of time any compute/graphics app was active on the GPU. 0.0 - 100.0
+        GPM_SM_UTIL                 = 2;  // Percentage of SMs that were busy. 0.0 - 100.0
+        GPM_SM_OCCUPANCY            = 3;  // Percentage of warps that were active vs theoretical maximum. 0.0 - 100.0
+        GPM_INTEGER_UTIL            = 4;  // Percentage of time the GPU's SMs were doing integer operations. 0.0 - 100.0
+        GPM_ANY_TENSOR_UTIL         = 5;  // Percentage of time the GPU's SMs were doing ANY tensor operations. 0.0 - 100.0
+        GPM_DFMA_TENSOR_UTIL        = 6;  // Percentage of time the GPU's SMs were doing DFMA tensor operations. 0.0 - 100.0
+        GPM_HMMA_TENSOR_UTIL        = 7;  // Percentage of time the GPU's SMs were doing HMMA tensor operations. 0.0 - 100.0
+        GPM_IMMA_TENSOR_UTIL        = 9;  // Percentage of time the GPU's SMs were doing IMMA tensor operations. 0.0 - 100.0
+        GPM_DRAM_BW_UTIL            = 10; // Percentage of DRAM bw used vs theoretical maximum. 0.0 - 100.0
+        GPM_FP64_UTIL               = 11; // Percentage of time the GPU's SMs were doing non-tensor FP64 math. 0.0 - 100.0
+        GPM_FP32_UTIL               = 12; // Percentage of time the GPU's SMs were doing non-tensor FP32 math. 0.0 - 100.0
+        GPM_FP16_UTIL               = 13; // Percentage of time the GPU's SMs were doing non-tensor FP16 math. 0.0 - 100.0
+        GPM_PCIE_TX_PER_SEC         = 20; // PCIe traffic from this GPU in MiB/sec
+        GPM_PCIE_RX_PER_SEC         = 21; // PCIe traffic to this GPU in MiB/sec
+        GPM_NVDEC_0_UTIL            = 30; // Percent utilization of NVDEC 0. 0.0 - 100.0
+        GPM_NVDEC_1_UTIL            = 31; // Percent utilization of NVDEC 1. 0.0 - 100.0
+        GPM_NVDEC_2_UTIL            = 32; // Percent utilization of NVDEC 2. 0.0 - 100.0
+        GPM_NVDEC_3_UTIL            = 33; // Percent utilization of NVDEC 3. 0.0 - 100.0
+        GPM_NVDEC_4_UTIL            = 34; // Percent utilization of NVDEC 4. 0.0 - 100.0
+        GPM_NVDEC_5_UTIL            = 35; // Percent utilization of NVDEC 5. 0.0 - 100.0
+        GPM_NVDEC_6_UTIL            = 36; // Percent utilization of NVDEC 6. 0.0 - 100.0
+        GPM_NVDEC_7_UTIL            = 37; // Percent utilization of NVDEC 7. 0.0 - 100.0
+        GPM_NVJPG_0_UTIL            = 40; // Percent utilization of NVJPG 0. 0.0 - 100.0
+        GPM_NVJPG_1_UTIL            = 41; // Percent utilization of NVJPG 1. 0.0 - 100.0
+        GPM_NVJPG_2_UTIL            = 42; // Percent utilization of NVJPG 2. 0.0 - 100.0
+        GPM_NVJPG_3_UTIL            = 43; // Percent utilization of NVJPG 3. 0.0 - 100.0
+        GPM_NVJPG_4_UTIL            = 44; // Percent utilization of NVJPG 4. 0.0 - 100.0
+        GPM_NVJPG_5_UTIL            = 45; // Percent utilization of NVJPG 5. 0.0 - 100.0
+        GPM_NVJPG_6_UTIL            = 46; // Percent utilization of NVJPG 6. 0.0 - 100.0
+        GPM_NVJPG_7_UTIL            = 47; // Percent utilization of NVJPG 7. 0.0 - 100.0
+        GPM_NVOFA_0_UTIL            = 50; // Percent utilization of NVOFA 0. 0.0 - 100.0
+        GPM_NVOFA_1_UTIL            = 51; // Percent utilization of NVOFA 1. 0.0 - 100.0
+        GPM_NVLINK_TOTAL_RX_PER_SEC = 60; // NvLink read bandwidth for all links in MiB/sec
+        GPM_NVLINK_TOTAL_TX_PER_SEC = 61; // NvLink write bandwidth for all links in MiB/sec
+        GPM_NVLINK_L0_RX_PER_SEC    = 62; // NvLink read bandwidth for link 0 in MiB/sec
+        GPM_NVLINK_L0_TX_PER_SEC    = 63; // NvLink write bandwidth for link 0 in MiB/sec
+        GPM_NVLINK_L1_RX_PER_SEC    = 64; // NvLink read bandwidth for link 1 in MiB/sec
+        GPM_NVLINK_L1_TX_PER_SEC    = 65; // NvLink write bandwidth for link 1 in MiB/sec
+        GPM_NVLINK_L2_RX_PER_SEC    = 66; // NvLink read bandwidth for link 2 in MiB/sec
+        GPM_NVLINK_L2_TX_PER_SEC    = 67; // NvLink write bandwidth for link 2 in MiB/sec
+        GPM_NVLINK_L3_RX_PER_SEC    = 68; // NvLink read bandwidth for link 3 in MiB/sec
+        GPM_NVLINK_L3_TX_PER_SEC    = 69; // NvLink write bandwidth for link 3 in MiB/sec
+        GPM_NVLINK_L4_RX_PER_SEC    = 70; // NvLink read bandwidth for link 4 in MiB/sec
+        GPM_NVLINK_L4_TX_PER_SEC    = 71; // NvLink write bandwidth for link 4 in MiB/sec
+        GPM_NVLINK_L5_RX_PER_SEC    = 72; // NvLink read bandwidth for link 5 in MiB/sec
+        GPM_NVLINK_L5_TX_PER_SEC    = 73; // NvLink write bandwidth for link 5 in MiB/sec
+        GPM_NVLINK_L6_RX_PER_SEC    = 74; // NvLink read bandwidth for link 6 in MiB/sec
+        GPM_NVLINK_L6_TX_PER_SEC    = 75; // NvLink write bandwidth for link 6 in MiB/sec
+        GPM_NVLINK_L7_RX_PER_SEC    = 76; // NvLink read bandwidth for link 7 in MiB/sec
+        GPM_NVLINK_L7_TX_PER_SEC    = 77; // NvLink write bandwidth for link 7 in MiB/sec
+        GPM_NVLINK_L8_RX_PER_SEC    = 78; // NvLink read bandwidth for link 8 in MiB/sec
+        GPM_NVLINK_L8_TX_PER_SEC    = 79; // NvLink write bandwidth for link 8 in MiB/sec
+        GPM_NVLINK_L9_RX_PER_SEC    = 80; // NvLink read bandwidth for link 9 in MiB/sec
+        GPM_NVLINK_L9_TX_PER_SEC    = 81; // NvLink write bandwidth for link 9 in MiB/sec
+        GPM_NVLINK_L10_RX_PER_SEC   = 82; // NvLink read bandwidth for link 10 in MiB/sec
+        GPM_NVLINK_L10_TX_PER_SEC   = 83; // NvLink write bandwidth for link 10 in MiB/sec
+        GPM_NVLINK_L11_RX_PER_SEC   = 84; // NvLink read bandwidth for link 11 in MiB/sec
+        GPM_NVLINK_L11_TX_PER_SEC   = 85; // NvLink write bandwidth for link 11 in MiB/sec
+        GPM_NVLINK_L12_RX_PER_SEC   = 86; // NvLink read bandwidth for link 12 in MiB/sec
+        GPM_NVLINK_L12_TX_PER_SEC   = 87; // NvLink write bandwidth for link 12 in MiB/sec
+        GPM_NVLINK_L13_RX_PER_SEC   = 88; // NvLink read bandwidth for link 13 in MiB/sec
+        GPM_NVLINK_L13_TX_PER_SEC   = 89; // NvLink write bandwidth for link 13 in MiB/sec
+        GPM_NVLINK_L14_RX_PER_SEC   = 90; // NvLink read bandwidth for link 14 in MiB/sec
+        GPM_NVLINK_L14_TX_PER_SEC   = 91; // NvLink write bandwidth for link 14 in MiB/sec
+        GPM_NVLINK_L15_RX_PER_SEC   = 92; // NvLink read bandwidth for link 15 in MiB/sec
+        GPM_NVLINK_L15_TX_PER_SEC   = 93; // NvLink write bandwidth for link 15 in MiB/sec
+        GPM_NVLINK_L16_RX_PER_SEC   = 94; // NvLink read bandwidth for link 16 in MiB/sec
+        GPM_NVLINK_L16_TX_PER_SEC   = 95; // NvLink write bandwidth for link 16 in MiB/sec
+        GPM_NVLINK_L17_RX_PER_SEC   = 96; // NvLink read bandwidth for link 17 in MiB/sec
+        GPM_NVLINK_L17_TX_PER_SEC   = 97; // NvLink write bandwidth for link 17 in MiB/sec
+        GPM_METRIC_MAX              = 98;
+    }
+    optional string        dev_id       = 1;
+    repeated NVMLProbe     NVML_metrics = 2;
+    repeated GPMProbe      GPM_metrics  = 3;
+    optional GPUProperties properties   = 4;
+}

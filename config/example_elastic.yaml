@@ -1,0 +1,65 @@
+bench:
+  dataset: wikimedia/wikipedia
+  preprocessing:
+    chunk_overlap: 0
+    chunk_size: 512
+    chunktype: length
+    dataset_ratio: 0.0001
+rag:
+  action:
+    build_index: true
+    embedding: true
+    evaluate: false
+    generation: false
+    insert: true
+    preprocess: true
+    reranking: false
+    retrieval: true
+  build_index:
+    index_type: IVF_HNSW_SQ
+    metric_type: L2
+  embedding:
+    sentence_transformers_name: all-MiniLM-L6-v2
+    batch_size: 1024
+    embedding_framework: sentence_transformers
+    model: nomic-ai/nomic-embed-text-v2-moe
+    store: false
+    load: false
+  evaluate:
+    evaluator_embedding: ragdata/bge-large-zh-v1.5
+    evaluator_model: ragdata/Qwen2-7B-Instruct-GPTQ-Int8
+  generation:
+    device: cuda:0
+    model: Qwen/Qwen2.5-7B-Instruct
+  insert:
+    batch_size: 512
+    collection_name: ''
+    drop_previous_collection: false
+  reranking:
+    device: cuda:0
+    rerank_model: Qwen/Qwen2.5-7B-Instruct
+    top_n: 5
+  retrieval:
+    question_num: 16
+    retrieval_batch_size: 2
+    top_k: 5
+run_name: default_run
+sys:
+  devices:
+    cpu: cpu
+    gpu_count: 2
+    gpus:
+    - cuda:0
+    - cuda:1
+  log:
+    metrics_log: ./log/default_run.log
+  vector_db:
+    # collection_name: 'wikimedia_wikipedia_all_MiniLM_L6_v2_1'
+    # collection_name: 'wikimedia_wikipedia_all_MiniLM_L6_v2_0_1_512' #IVF_FLAT
+    # collection_name: 'wikimedia_wikipedia_All_mpnet_base_v2_0_1_512' #DISKANN
+    # collection_name: 'wikimedia_wikipedia_Alibaba_NLP_gte_large_en_v1_5_0_1_512' #GPU_IVF
+    collection_name: 'wikimedia_wikipedia_all_MiniLM_L6_v2_1' #GPU_IVF
+    db_path: http://localhost:9200
+    db_token: 
+    drop_previous_collection: false
+    type: elastic

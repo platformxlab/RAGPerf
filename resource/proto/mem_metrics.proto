@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+// === Meminfo related metrics ===
+message MemBasicMetrics {
+    optional uint64 mem_total     = 1;
+    optional uint64 mem_free      = 2;
+    optional uint64 mem_available = 3;
+}
+
+message MemKernelCacheMetrics {
+    optional uint64 buffers     = 1;
+    optional uint64 cached      = 2;
+    optional uint64 swap_cached = 3;
+}
+
+message MemActiveInactiveMetrics {
+    optional uint64 active        = 1;
+    optional uint64 inactive      = 2;
+    optional uint64 active_anon   = 3;
+    optional uint64 inactive_anon = 4;
+    optional uint64 active_file   = 5;
+    optional uint64 inactive_file = 6;
+}
+
+message MemNonEvictableMetrics {
+    optional uint64 unevictable = 1;
+    optional uint64 mlocked     = 2;
+}
+
+message MemSwapMetrics {
+    optional uint64 swap_total  = 1;
+    optional uint64 swap_free   = 2;
+    optional uint64 zswap_total = 3;
+    optional uint64 zswapped    = 4;
+}
+
+message MemDirtyWritebackMetrics {
+    optional uint64 dirty     = 1;
+    optional uint64 writeback = 2;
+}
+
+message MemTypeMetrics {
+    optional uint64 anon_pages = 1;
+    optional uint64 mapped     = 2;
+    optional uint64 shmem      = 3;
+}
+
+message MemKernelMetrics {
+    optional uint64 kernel_reclaimable = 1;
+    optional uint64 slab               = 2;
+    optional uint64 slab_reclaimable   = 3;
+    optional uint64 slab_unreclaimable = 4;
+    optional uint64 kernel_stack       = 5;
+    optional uint64 page_tables        = 6;
+}
+
+message MemTmpBufferMetrics {
+    optional uint64 nfs_unstable  = 1;
+    optional uint64 bounce        = 2;
+    optional uint64 writeback_tmp = 3;
+}
+
+message MemVirtualMetrics {
+    optional uint64 commit_limit  = 1;
+    optional uint64 committed_as  = 2;
+    optional uint64 vmalloc_total = 3;
+    optional uint64 vmalloc_used  = 4;
+    optional uint64 vmalloc_chunk = 5;
+}
+
+message MemHugePageMetrics {
+    optional uint64 anon_huge_pages  = 1;
+    optional uint64 shmem_huge_pages = 2;
+    optional uint64 shmem_pmd_mapped = 3;
+    optional uint64 file_huge_pages  = 4;
+    optional uint64 file_pmd_mapped  = 5;
+    optional uint64 hugepages_total  = 6;
+    optional uint64 hugepages_free   = 7;
+    optional uint64 hugepages_rsvd   = 8;
+    optional uint64 hugepages_surp   = 9;
+    optional uint64 hugepages_size   = 10;
+    optional uint64 huge_tlb         = 11;
+}
+
+message MemDirectMapMetrics {
+    optional uint64 direct_map_4k = 1;
+    optional uint64 direct_map_2m = 2;
+    optional uint64 direct_map_4m = 3;
+    optional uint64 direct_map_1g = 4;
+}
+
+message MemMiscMetrics {
+    optional uint64 percpu             = 1;
+    optional uint64 hardware_corrupted = 2;
+}
+
+// === VMem related metrics ===
+message VMemZoneMetrics {
+    optional uint64 nr_free_pages         = 1;
+    optional uint64 nr_zone_inactive_anon = 2;
+    optional uint64 nr_zone_active_anon   = 3;
+    optional uint64 nr_zone_inactive_file = 4;
+    optional uint64 nr_zone_active_file   = 5;
+    optional uint64 nr_zone_unevictable   = 6;
+    optional uint64 nr_zone_write_pending = 7;
+}
+
+message VMemNUMAMetrics {
+    optional uint64 numa_hit        = 1;
+    optional uint64 numa_miss       = 2;
+    optional uint64 numa_foreign    = 3;
+    optional uint64 numa_interleave = 4;
+    optional uint64 numa_local      = 5;
+    optional uint64 numa_other      = 6;
+}
+
+// NOTE: should ALWAYS match the corresponding field numbers in MemInfoMetrics
+message MemMetadata {
+    enum Probe {
+        INVALID             = 0; // placeholder for 0
+        MEM_BASIC           = 1;
+        MEM_KERNEL_CACHE    = 2;
+        MEM_ACTIVE_INACTIVE = 3;
+        MEM_NON_EVICTABLE   = 4;
+        MEM_SWAP            = 5;
+        MEM_DIRTY_WRITEBACK = 6;
+        MEM_TYPE            = 7;
+        MEM_KERNEL          = 8;
+        MEM_TMP_BUFFER      = 9;
+        MEM_VIRTUAL         = 10;
+        MEM_HUGE_PAGE       = 11;
+        MEM_DIRECT_MAP      = 12;
+        MEM_MISC            = 13;
+    }
+    repeated Probe probes = 1;
+}
+
+// Refer to https://man7.org/linux/man-pages/man5/proc_meminfo.5.html
+// added a level of indirection to allow MemMetadata::Probe to be used as a field number
+message MemInfoMetrics {
+    optional MemBasicMetrics          basic_metrics           = 1;
+    optional MemKernelCacheMetrics    kernel_cache_metrics    = 2;
+    optional MemActiveInactiveMetrics active_inactive_metrics = 3;
+    optional MemNonEvictableMetrics   non_evictable_metrics   = 4;
+    optional MemSwapMetrics           swap_metrics            = 5;
+    optional MemDirtyWritebackMetrics dirty_writeback_metrics = 6;
+    optional MemTypeMetrics           type_metrics            = 7;
+    optional MemKernelMetrics         kernel_metrics          = 8;
+    optional MemTmpBufferMetrics      tmp_buffer_metrics      = 9;
+    optional MemVirtualMetrics        virtual_metrics         = 10;
+    optional MemHugePageMetrics       huge_page_metrics       = 11;
+    optional MemDirectMapMetrics      direct_map_metrics      = 12;
+    optional MemMiscMetrics           misc_metrics            = 13;
+}
+
+message MemMetrics {
+    optional uint64          timestamp       = 1;
+    optional MemInfoMetrics  meminfo_metrics = 2;
+}
+
+message MemMetricsTimeSeries {
+    repeated MemMetrics metrics = 1;
+}

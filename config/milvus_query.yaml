@@ -1,0 +1,58 @@
+bench:
+  dataset: wikimedia/wikipedia
+  type: text
+  preprocessing:
+    chunk_overlap: 0
+    chunk_size: 512
+    chunktype: length
+    dataset_ratio: 0.001
+rag:
+  action:
+    preprocess: false
+    embedding: false
+    insert: false
+    build_index: false
+    reranking: true
+    retrieval: true
+    generation: true
+    evaluate: false
+  build_index:
+    index_type: IVF_HNSW_SQ
+    metric_type: L2
+  embedding:
+    device: cuda:0  
+    sentence_transformers_name: all-MiniLM-L6-v2
+    batch_size: 1024
+    embedding_framework: sentence_transformers
+    model: nomic-ai/nomic-embed-text-v2-moe
+    store: false
+    load: false
+  generation:
+    device: cuda:0
+    model: Qwen/Qwen2.5-7B-Instruct
+  reranking:
+    device: cuda:0
+    rerank_model: Qwen/Qwen2.5-7B-Instruct
+    top_n: 5
+  retrieval:
+    question_num: 16
+    retrieval_batch_size: 4
+    top_k: 10
+  pipeline:
+    batch_size: 4
+run_name: default_run
+sys:
+  devices:
+    cpu: cpu
+    gpu_count: 2
+    gpus:
+    - cuda:0
+    - cuda:1
+  log:
+    metrics_log: ./log/default_run.log
+  vector_db:
+    collection_name: 'lance_text_test' 
+    db_path: /mnt/data1/yuanxu4/lancedb # local path for lance db
+    db_token: 
+    drop_previous_collection: false
+    type: lancedb

@@ -1,0 +1,37 @@
+# monitoring
+nvidia-ml-py
+pybind11-stubgen
+absl-py
+
+# LLM inference and serving
+vllm==0.8.0
+sentence_transformers
+ragas
+datasets
+
+# pytorch
+torch
+torchvision
+
+# PDF pipeline
+docling
+
+# vectorDB
+milvus==2.3.5
+pymilvus==2.3.7
+lancedb==0.24.3
+qdrant-client
+elasticsearch
+chromadb
+
+# evaluator
+FlagEmbedding
+optimum
+
+# image 
+pdf2image
+colpali_engine
+qwen_vl_utils
+
+# plot
+matplotlib
