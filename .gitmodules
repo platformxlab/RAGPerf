@@ -1,0 +1,13 @@
+[submodule "third_party/pybind11"]
+	path = third_party/pybind11
+	url = https://github.com/pybind/pybind11.git
+[submodule "third_party/protobuf"]
+	path = third_party/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "third_party/date"]
+	path = third_party/date
+	url = https://github.com/HowardHinnant/date.git
+[submodule "third_party/pybind11_mkdoc"]
+	path = third_party/pybind11_mkdoc
+	url = https://github.com/0-EricZhou-0/pybind11_mkdoc.git
+	branch = arg_support

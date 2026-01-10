@@ -32,12 +32,12 @@
 ## Table of Contents
 
 - [RASB: RAG-based AI System Benchmakring Framework](#rasb-rag-based-ai-system-benchmakring-framework)
-  - [Unique Features](#unique-features)
+  - [Features](#features)
   - [Installation](#installation)
     - [1) Create a virtual environment](#1-create-a-virtual-environment)
     - [2) Python dependencies](#2-python-dependencies)
     - [3) Install monitor system](#3-install-monitor-system)
-  - [Usage](#usage)
+  - [Running RASB](#running-rasb)
     - [Quick Start with Web UI](#quick-start-with-web-ui)
       - [1) Preparation](#1-preparation)
       - [2) Config your Benchmark and run](#2-config-your-benchmark-and-run)
@@ -51,9 +51,9 @@
     - [Customized Modules](#customized-modules)
 
 ## Installation
-We highly recommend using an isolated Python environment (Conda).
 
 ### 1) Create a virtual environment
+To run RASB, we highly recommend using an isolated Python environment (e.g., Conda).
 
 **Conda (recommended)**
 ```bash
@@ -81,7 +81,7 @@ python3 -m pip install -r ../requirement.txt
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
 RASB uses a custom, low-overhead monitoring daemon. Please refer to the documentations at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
 
-## Usage
+## Running RASB
 RASB provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
 
 ### Quick Start with Web UI
@@ -120,12 +120,12 @@ export HF_HOME="/mnt/data/hf_home"
 ```
 
 #### 2) Running the Benchmark
-To run the benchmark, we first need to setup the retriever like a vectorDB. See [vectordb](#vectordb). Change the db_path to your local vectordb path in config file.
+To run the benchmark, you first need to setup the vectorDB as the retriever. See [vectordb](#vectordb) for a supported list and quick setup guide. Change the db_path to your local vectordb path in config file.
 ```
 vector_db:
     db_path: /mnt/data/vectordb
 ```
-First run the **preprocess/insert** phase to insert the dataset. 
+First run the **preprocess/insert** phase to insert the dataset:
 
 ```bash
 # 1) Build/insert into the vector store (LanceDB example)
@@ -133,9 +133,9 @@ python3 src/run_new.py \
   --config config/lance_insert.yaml \
   --msys-config config/monitor/example_config.yaml
 ```
-To execute the **query/evaluate**, run the following:
+After the insertion stage, proceed to the **query/evaluate** stage. Run the following:
 ```bash
-# 2) Retreival and Query 
+# 2) Retreival and Query
 python3 src/run_new.py \
   --config config/lance_query.yaml \
   --msys-config config/monitor/example_config.yaml

@@ -1,0 +1,68 @@
+name: C/C++ Format Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  cmake-version: "3.22.6"
+  clang-format-version: "14"
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # === Get CMake ===
+    - name: Setup CMake
+      id: setup-cmake
+      uses: ./.github/actions/cmake-setup
+      with:
+        cmake-version: ${{ env.cmake-version }}
+
+    # === Get clang-format ===
+    - name: Cache clang-format
+      uses: actions/cache@v3
+      id: cache-clang-format
+      with:
+        path: ~/.cache/clang-format-${{ env.clang-format-version }}
+        key: ${{ runner.os }}-clang-format-${{ env.clang-format-version }}
+
+    - name: Download clang-format
+      if: steps.cache-clang-format.outputs.cache-hit != 'true'
+      env:
+        clang-format-url: https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-2da3e7b/clang-format-${{ env.clang-format-version }}_linux-amd64
+        clang-format-cache-path: ~/.cache/clang-format-${{ env.clang-format-version }}
+        clang-format-sha256: 5daf48b8331afb85575e11dfd73ffc6bf47af10ccde260b40751df246f1bf1ff
+      run: |
+        curl -L ${{ env.clang-format-url }} -o clang-format
+        echo "${{ env.clang-format-sha256 }} clang-format" | sha256sum -c -
+        chmod +x clang-format
+        mkdir -p ${{ env.clang-format-cache-path }}
+        mv clang-format ${{ env.clang-format-cache-path }}/clang-format-${{ env.clang-format-version }}
+
+    - name: Add clang-format to PATH
+      run: echo ~/.cache/clang-format-${{ env.clang-format-version }} >> "$GITHUB_PATH"
+
+    # === CMake configuration and build ===
+    - name: CMake Setup
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        ${{ env.cmake-exe }} -B ${{github.workspace}}/build -DFORMATTING_ONLY=ON
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target help
+
+    - name: Format Check
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        which clang-format
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target cpp-check-format
+
