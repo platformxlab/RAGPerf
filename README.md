@@ -3,8 +3,8 @@
 **RASB** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
 <!-- CI/CD Status -->
-[![C/C++ Format Check](https://github.com/IOScience/RAGPipeline/actions/workflows/clang-format.yml/badge.svg)](https://github.com/IOScience/RAGPipeline/actions/workflows/clang-format.yml)
-[![Python Format Check](https://github.com/IOScience/RAGPipeline/actions/workflows/black-format.yml/badge.svg)](https://github.com/IOScience/RAGPipeline/actions/workflows/black-format.yml)
+[![C/C++ Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml)
+[![Python Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/black-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/black-format.yml)
 
 <!-- Repo Characteristics -->
 ![CMake](https://img.shields.io/badge/CMake-008fba.svg?style=flat&logo=cmake&logoColor=ffffff)
@@ -48,7 +48,6 @@
   - [Supported RAG Pipeline Modules](#supported-rag-pipeline-modules)
     - [VectorDB](#vectordb)
     - [Monitoring System](#monitoring-system)
-    - [Customized Modules](#customized-modules)
 
 ## Installation
 
@@ -58,8 +57,8 @@ To run RASB, we highly recommend using an isolated Python environment (e.g., Con
 **Conda (recommended)**
 ```bash
 # Install Miniconda/Mambaforge from the official site if you don't have Conda
-conda create -n ragbench python=3.10
-conda activate ragbench
+conda create -n rasb python=3.10
+conda activate rasb
 ```
 
 ### 2) Python dependencies
@@ -156,6 +155,3 @@ Want to add a new DB? Check our RASB API at [VectorDB API](src/vectordb/README.m
 ### Monitoring System
 
 Examples of how to use it is documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md)
-
-### Customized Modules
-
