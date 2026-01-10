@@ -1,7 +1,7 @@
 
 # Vector Database Module
 
-This module provides a unified interface for interacting with various locally deployable Vector Databases. RASB abstracts the low-level client management, allowing you to switch between different backends (e.g., changing from LanceDB to Milvus) by simply modifying a configuration file.
+This module provides a unified interface for interacting with various locally deployable Vector Databases. RAGPerf abstracts the low-level client management, allowing you to switch between different backends (e.g., changing from LanceDB to Milvus) by simply modifying a configuration file.
 
 ## 📦 Supported Databases
 

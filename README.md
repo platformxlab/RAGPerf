@@ -1,6 +1,6 @@
-# RASB: RAG-based AI System Benchmarking Framework
+# RAGPerf: RAG-based AI System Benchmarking Framework
 
-**RASB** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
+**RAGPerf** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
 <!-- CI/CD Status -->
 [![C/C++ Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml)
@@ -16,28 +16,28 @@
 
 ## Key Features
 
-**🚀 Holistic System-Centric Benchmarking**: RASB moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdown, and hardware efficiency, helping you identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
+**🚀 Holistic System-Centric Benchmarking**: RAGPerf moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdown, and hardware efficiency, helping you identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
 
-**🧩 Modular Architecture**: RASB employs a configuration-driven design that abstracts the entire RAG pipeline—Embedding, Vector Database, Reranking, and Generation—behind uniform interfaces. You can seamlessly swap components—switching from Milvus to LanceDB, or from ChatGPT to Qwen—without rewriting code. This enables fine-grained analysis of specific component trade-offs.
+**🧩 Modular Architecture**: RAGPerf employs a configuration-driven design that abstracts the entire RAG pipeline—Embedding, Vector Database, Reranking, and Generation—behind uniform interfaces. You can seamlessly swap components—switching from Milvus to LanceDB, or from ChatGPT to Qwen—without rewriting code. This enables fine-grained analysis of specific component trade-offs.
 
-**📊 Detailed Full-Stack Profiling**: RASB integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory usage (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between RAG components.
+**📊 Detailed Full-Stack Profiling**: RAGPerf integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory usage (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between RAG components.
 
 **🔄 Dynamic Workload Generation**: Simulates the evolution of real-world knowledge bases. The workload generator can interleave standard search queries with insert, update, and delete operations. This allows you to stress-test how a RAG system handles high-concurrency requests while maintaining data freshness.
 
-**🖼️ Multi-Modal Capabilities**: RASB supports diverse data modalities beyond plain text. It includes specialized pipelines for Visual RAG (PDFs, Images) using OCR or ColPali visual embeddings, and Audio RAG using ASR models like Whisper. This enables benchmarking of complex, unstructured enterprise data pipelines.
+**🖼️ Multi-Modal Capabilities**: RAGPerf supports diverse data modalities beyond plain text. It includes specialized pipelines for Visual RAG (PDFs, Images) using OCR or ColPali visual embeddings, and Audio RAG using ASR models like Whisper. This enables benchmarking of complex, unstructured enterprise data pipelines.
 
 ---
 
 <!-- omit from toc -->
 ## Table of Contents
 
-- [RASB: RAG-based AI System Benchmarking Framework](#rasb-rag-based-ai-system-benchmarking-framework)
+- [RAGPerf: RAG-based AI System Benchmarking Framework](#ragperf-rag-based-ai-system-benchmarking-framework)
   - [Key Features](#key-features)
   - [Installation](#installation)
     - [1) Create a virtual environment](#1-create-a-virtual-environment)
     - [2) Python dependencies](#2-python-dependencies)
     - [3) Install monitor system](#3-install-monitor-system)
-  - [Running RASB](#running-rasb)
+  - [Running RAGPerf](#running-ragperf)
     - [Quick Start with Web UI](#quick-start-with-web-ui)
       - [1) Preparation](#1-preparation)
       - [2) Config your Benchmark and run](#2-config-your-benchmark-and-run)
@@ -52,13 +52,13 @@
 ## Installation
 
 ### 1) Create a virtual environment
-To run RASB, we highly recommend using an isolated Python environment (e.g., Conda).
+To run RAGPerf, we highly recommend using an isolated Python environment (e.g., Conda).
 
 **Conda (recommended)**
 ```bash
 # Install Miniconda/Mambaforge from the official site if you don't have Conda
-conda create -n rasb python=3.10
-conda activate rasb
+conda create -n RAGPerf python=3.10
+conda activate RAGPerf
 ```
 
 ### 2) Python dependencies
@@ -78,10 +78,10 @@ python3 -m pip install -r ../requirement.txt
 
 ### 3) Install monitor system
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
-RASB uses a custom, low-overhead monitoring daemon. Please refer to the documentations at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
+RAGPerf uses a custom, low-overhead monitoring daemon. Please refer to the documentations at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
 
-## Running RASB
-RASB provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
+## Running RAGPerf
+RAGPerf provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
 
 ### Quick Start with Web UI
 #### 1) Preparation
@@ -93,11 +93,11 @@ export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
 # Where to cache Hugging Face models (optional, adjust path as needed)
 export HF_HOME="/mnt/data/hf_home"
 ```
-Install streamlit and run the RASB client.
+Install streamlit and run the RAGPerf client.
 ```bash
 # install streamlit
 python3 -m pip install streamlit
-# run RASB
+# run RAGPerf
 streamlit run ui_client.py
 ```
 Open the UI with the reported url with your web browser, the default url is `http://localhost:8501`.
@@ -148,9 +148,9 @@ You can check the output result within the `./output` folder. To visualize the o
 
 ### VectorDB
 
-RASB already intergrates with many popular vectorDBs. To setup, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
+RAGPerf already intergrates with many popular vectorDBs. To setup, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
 
-Want to add a new DB? Check our RASB API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database) to standardize operations. To add a new database
+Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database) to standardize operations. To add a new database
 
 ### Monitoring System
 

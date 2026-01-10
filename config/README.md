@@ -1,4 +1,4 @@
-# RASB Configuration Guide
+# RAGPerf Configuration Guide
 
 This document details the configuration parameters used in the RAG (Retrieval-Augmented Generation) benchmarking pipeline. The configuration file is in YAML format and controls data processing, model selection, hardware allocation, and pipeline execution flow.
 
