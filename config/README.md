@@ -4,8 +4,8 @@ This document details the configuration parameters used in the RAGPerf. The conf
 
 ## 1. Top-Level Metadata
 
-| Parameter | Description |
-| :--- | :--- |
+| Parameter      | Description                                                                                                                     |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | **`run_name`** | A unique identifier for the current experiment (e.g., `default_run`). This is used for naming log files and output directories. |
 
 ---
@@ -50,12 +50,12 @@ rag:
 ### 3.2 Embedding (`embedding`)
 Configuration for the model that converts text/images into vectors.
 
-| Parameter | Description |
-| :--- | :--- |
-| `device` | GPU device identifier (e.g., `cuda:0`). |
+| Parameter                    | Description                                                          |
+| :--------------------------- | :------------------------------------------------------------------- |
+| `device`                     | GPU device identifier (e.g., `cuda:0`).                              |
 | `sentence_transformers_name` | Name of the model (e.g., `all-MiniLM-L6-v2`, `vidore/colpali-v1.2`). |
-| `batch_size` | Number of items processed per batch during embedding. |
-| `embedding_framework` | Backend framework (e.g., `sentence_transformers`). |
+| `batch_size`                 | Number of items processed per batch during embedding.                |
+| `embedding_framework`        | Backend framework (e.g., `sentence_transformers`).                   |
 
 ### 3.3 Vector Database Operations (`insert`, `build_index`)
 Parameters for writing data and creating efficient search structures.
@@ -89,16 +89,16 @@ rag:
 ### 3.5 Generation (`generation`)
 Settings for the Large Language Model (LLM) that generates the final answer.
 
-| Parameter | Description |
-| :--- | :--- |
-| `device` | GPU device identifier. |
-| `model` | Path or name of the LLM (e.g., `Qwen/Qwen2.5-7B-Instruct`). |
+| Parameter | Description                                                 |
+| :-------- | :---------------------------------------------------------- |
+| `device`  | GPU device identifier.                                      |
+| `model`   | Path or name of the LLM (e.g., `Qwen/Qwen2.5-7B-Instruct`). |
 
 ### 3.6 Evaluation (`evaluate`)
 Settings for automated quality assessment (e.g., using RAGAS).
 
-| Parameter | Description |
-| :--- | :--- |
+| Parameter         | Description                                            |
+| :---------------- | :----------------------------------------------------- |
 | `evaluator_model` | Model used as the judge for metrics like faithfulness. |
 
 ---
@@ -121,14 +121,14 @@ sys:
 
 ### 4.2 Devices (`devices`)
 
-| Parameter | Description |
-| :--- | :--- |
-| `cpu` | CPU identifier. |
-| `gpu_count` | Number of GPUs available to the system. |
-| `gpus` | List of specific GPU IDs (e.g., `["cuda:0", "cuda:1"]`). |
+| Parameter   | Description                                              |
+| :---------- | :------------------------------------------------------- |
+| `cpu`       | CPU identifier.                                          |
+| `gpu_count` | Number of GPUs available to the system.                  |
+| `gpus`      | List of specific GPU IDs (e.g., `["cuda:0", "cuda:1"]`). |
 
 ### 4.3 Logging (`log`)
 
-| Parameter | Description |
-| :--- | :--- |
+| Parameter     | Description                           |
+| :------------ | :------------------------------------ |
 | `metrics_log` | Path for the main execution log file. |
