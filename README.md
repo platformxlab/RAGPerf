@@ -90,9 +90,7 @@ RAGPerf uses a custom, low-overhead monitoring daemon. Here is a stripped down v
 
 #### C++ 20 Compatible Compiler Installation
 
-Check if system compiler already have the capability, if so, this step can be skipped.
-
-To install a C++ 20 compatible compiler in the virtual environment, for example, `gcc=12.1.0`, run
+Install a C++ 20 compatible compiler in the virtual environment, for example, `gcc=12.1.0`, run
 
 ```bash
 conda install -c conda-forge gcc=12.1.0
@@ -100,9 +98,7 @@ conda install -c conda-forge gcc=12.1.0
 
 #### Protobuf Installation
 
-Install protobuf compiler and runtime library (modified from
-[PROTOBUF_CMAKE](https://github.com/protocolbuffers/protobuf/blob/main/cmake/README.md)).
-Currently, we are using version `v30.2`.
+Install protobuf compiler and runtime library (modified from [PROTOBUF_CMAKE](https://github.com/protocolbuffers/protobuf/blob/main/cmake/README.md)). Currently, we are using version `v30.2`.
 
 ```bash
 # clone the protobuf repository somewhere
