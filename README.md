@@ -54,7 +54,7 @@
 
 ### Create a Virtual Environment
 
-To run RAGPerf, we highly recommend using an isolated Python environment using a Python virtual environment manager (e.g., `venv`, `conda`) to avoid package conflicts, we use `conda` for demonstrating purposes throughout the documentation.
+To run RAGPerf, we highly recommend using an isolated Python environment. You can use a Python virtual environment manager (e.g., `venv`, `conda`) to avoid package conflicts. We use `conda` for demonstrating purposes throughout the documentation.
 
 **Conda (recommended)**
 ```bash
