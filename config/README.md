@@ -1,6 +1,6 @@
 # RAGPerf Configuration Guide
 
-This document details the configuration parameters used in the RAG (Retrieval-Augmented Generation) benchmarking pipeline. The configuration file is in YAML format and controls data processing, model selection, hardware allocation, and pipeline execution flow.
+This document details the configuration parameters used in the RAGPerf. The configuration file is in YAML format and controls data processing, model selection, hardware allocation, and pipeline execution flow.
 
 ## 1. Top-Level Metadata
 
@@ -12,7 +12,7 @@ This document details the configuration parameters used in the RAG (Retrieval-Au
 
 ## 2. Benchmark Data Settings (`bench`)
 
-This section defines the dataset source and how the text/image is pre-processed before ingestion.
+This section defines the dataset source and how text or images are preprocessed before ingestion.
 
 ```yaml
 bench:

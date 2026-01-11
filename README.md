@@ -1,6 +1,6 @@
 # RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems
 
-**RAGPerf** is an open-source framework designed to benchmark the End-to-End system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
+**RAGPerf** is an open-source framework designed to benchmark the end-to-end system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers a user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
 <!-- CI/CD Status -->
 [![C/C++ Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml)
@@ -16,22 +16,22 @@
 
 ## Key Features
 
-**🚀 Holistic System-Centric Benchmarking**: RAGPerf moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdown, and hardware efficiency, helping you identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
+**🚀 Holistic System-Centric Benchmarking**: RAGPerf moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdowns, and hardware efficiency. This helps developers identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
 
-**🧩 Modular Architecture**: RAGPerf employs a configuration-driven design that abstracts the entire RAG pipeline—Embedding, Vector Database, Reranking, and Generation—behind uniform interfaces. You can seamlessly swap components—switching from Milvus to LanceDB, or from ChatGPT to Qwen—without rewriting code. This enables fine-grained analysis of specific component trade-offs.
+**🧩 Modular Architecture**: RAGPerf uses a configuration-driven design that abstracts the RAG pipeline (Embedding, Vector Database, Reranking, and Generation) behind uniform interfaces. Users can seamlessly switch components (e.g., switching from Milvus to LanceDB, or ChatGPT to Qwen) without rewriting code. This enables detailed performance comparisons between different components.
 
 **📊 Detailed Full-Stack Profiling**: RAGPerf integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory usage (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between RAG components.
 
-**🔄 Dynamic Workload Generation**: Simulates the evolution of real-world knowledge bases. The workload generator can interleave standard search queries with insert, update, and delete operations. This allows you to stress-test how a RAG system handles high-concurrency requests while maintaining data freshness.
+**🔄 Dynamic Workload Generation**: RAGPerf is able to simulate the evolution of real-world knowledge bases. The workload generator also supports queries with insert, update, and delete operations, allows users to measure how these operations impact data freshness and overall system performance.
 
-**🖼️ Multi-Modal Capabilities**: RAGPerf supports diverse data modalities beyond plain text. It includes specialized pipelines for Visual RAG (PDFs, Images) using OCR or ColPali visual embeddings, and Audio RAG using ASR models like Whisper. This enables benchmarking of complex, unstructured enterprise data pipelines.
+**🖼️ Multi-Modal Capabilities**: RAGPerf supports diverse data modalities beyond plain text. It provides specialized pipelines including Visual RAG (PDFs, Images) using OCR or ColPali visual embeddings, and Audio RAG using ASR models like Whisper. This enables benchmarking of complex, unstructured RAG pipelines.
 
 ---
 
 <!-- omit from toc -->
 ## Table of Contents
 
-- [RAGPerf: RAG-based AI System Benchmarking Framework](#ragperf-rag-based-ai-system-benchmarking-framework)
+- [RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems](#ragperf-an-end-to-end-benchmarking-framework-for-retrieval-augmented-generation-systems)
   - [Key Features](#key-features)
   - [Installation](#installation)
     - [1) Create a virtual environment](#1-create-a-virtual-environment)
@@ -40,7 +40,7 @@
   - [Running RAGPerf](#running-ragperf)
     - [Quick Start with Web UI](#quick-start-with-web-ui)
       - [1) Preparation](#1-preparation)
-      - [2) Config your Benchmark and run](#2-config-your-benchmark-and-run)
+      - [2) Configure the benchmark and run](#2-configure-the-benchmark-and-run)
     - [Run with Command Line (CLI)](#run-with-command-line-cli)
       - [1) Preparation](#1-preparation-1)
       - [2) Running the Benchmark](#2-running-the-benchmark)
@@ -69,7 +69,7 @@ We use `pip-tools` to ensure reproducible dependency resolution.
 # install pip-compile for python package dependency resolution
 python3 -m pip install pip-tools
 
-# configure MSys and generate a list of all required python packages
+# Generate list of all required python packages
 mkdir build && cd build
 cmake ..
 make generate_py3_requirements
@@ -78,7 +78,7 @@ python3 -m pip install -r ../requirement.txt
 
 ### 3) Install monitor system
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
-RAGPerf uses a custom, low-overhead monitoring daemon. Please refer to the documentations at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
+RAGPerf uses a custom, low-overhead monitoring daemon. Please refer to the documentation at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
 
 ## Running RAGPerf
 RAGPerf provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
@@ -100,12 +100,12 @@ python3 -m pip install streamlit
 # run RAGPerf
 streamlit run ui_client.py
 ```
-Open the UI with the reported url with your web browser, the default url is `http://localhost:8501`.
+Open the UI with the reported url in your web browser, the default url is `http://localhost:8501`.
 
-#### 2) Config your Benchmark and run
-To run the benchmark, we first need to setup the retriever like a vectorDB. See [vectordb](#vectordb). The in the webpage, customize your own workload setting. ![config](./doc/figures/ragconfig.png)
+#### 2) Configure the benchmark and run
+To run the benchmark, we first need to set up the retriever like a vectorDB. See [vectordb](#vectordb). Then, on the webpage, customize your own workload setting. ![config](./doc/figures/ragconfig.png)
 
-Then in the execute page, click execute to execute the workload. You may also need to check the config file before the execution, see [here](./config/README.md) for config explaination. ![config](./doc/figures/run.png)
+Then in the execute page, click execute to execute the workload. You may also need to check the config file before the execution, see [here](./config/README.md) for config explanation. ![config](./doc/figures/run.png)
 
 ### Run with Command Line (CLI)
 #### 1) Preparation
@@ -119,7 +119,7 @@ export HF_HOME="/mnt/data/hf_home"
 ```
 
 #### 2) Running the Benchmark
-To run the benchmark, you first need to setup the vectorDB as the retriever. See [vectordb](#vectordb) for a supported list and quick setup guide. Change the db_path to your local vectordb path in config file.
+To run the benchmark, you first need to set up the vectorDB as the retriever. See [vectordb](#vectordb) for a supported list and quick setup guide. Change the db_path to your local vectordb path in config file.
 ```
 vector_db:
     db_path: /mnt/data/vectordb
@@ -134,12 +134,12 @@ python3 src/run_new.py \
 ```
 After the insertion stage, proceed to the **query/evaluate** stage. Run the following:
 ```bash
-# 2) Retreival and Query
+# 2) Retrieval and Query
 python3 src/run_new.py \
   --config config/lance_query.yaml \
   --msys-config config/monitor/example_config.yaml
 ```
-To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameter are listed [here](config/README.md)
+To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameters are listed [here](config/README.md)
 
 #### 3) Output Analysis
 You can check the output result within the `./output` folder. To visualize the output results, run `python3 example/monitoring_sys_lib/test_parser.py`, the visualized figures will be located within the `./output`.
@@ -148,10 +148,10 @@ You can check the output result within the `./output` folder. To visualize the o
 
 ### VectorDB
 
-RAGPerf already intergrates with many popular vectorDBs. To setup, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
+RAGPerf already integrates with many popular vectorDBs. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
 
 Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database) to standardize operations. To add a new database
 
 ### Monitoring System
 
-Examples of how to use it is documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md)
+Examples of how to use it are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md)
