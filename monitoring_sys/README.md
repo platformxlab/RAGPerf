@@ -45,12 +45,12 @@ Install protobuf compiler and runtime library (modified from
 Currently, we are using version `v30.2`.
 
 ```bash
-# Clone the protobuf repository
+# clone the protobuf repository
 git clone https://github.com/protocolbuffers/protobuf.git
 cd protobuf
 git submodule update --init --recursive
 git checkout v30.2
-# Make & Install to  ~/.local
+# make & Install to ~/.local (can be configured)
 mkdir build && cd build
 cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
          -DBUILD_SHARED_LIBS=ON \
@@ -58,7 +58,7 @@ cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
          -Dprotobuf_BUILD_TESTS=OFF \
          -DCMAKE_CXX_STANDARD=17 \
          -DCMAKE_BUILD_TYPE=Release \
-         -DCMAKE_INSTALL_PREFIX="$HOME/.local"
+         -DCMAKE_INSTALL_PREFIX="$HOME/.local" # can be configured
 cmake --build . --config Release -j
 make install -j
 ```

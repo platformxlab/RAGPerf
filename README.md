@@ -36,6 +36,9 @@
   - [Create a Virtual Environment](#create-a-virtual-environment)
   - [Install Dependencies](#install-dependencies)
   - [Install Monitoring System](#install-monitoring-system)
+    - [C++ 20 Compatible Compiler Installation](#c-20-compatible-compiler-installation)
+    - [Protobuf Installation](#protobuf-installation)
+    - [Build MSys Shared Library and Position the Output Product to `src/monitoring_sys`](#build-msys-shared-library-and-position-the-output-product-to-srcmonitoring_sys)
 - [Running RAGPerf](#running-ragperf)
   - [Quick Start with Web UI](#quick-start-with-web-ui)
     - [Preparation](#preparation)
@@ -83,7 +86,55 @@ python3 -m pip install -r ../requirement.txt
 ### Install Monitoring System
 
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
-RAGPerf uses a custom, low-overhead monitoring daemon. Please refer to the documentation at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
+RAGPerf uses a custom, low-overhead monitoring daemon. Here is a stripped down version of installation procedures (please refer to [MonitoringSystem README](monitoring_sys/README.md) for more detailed instructions and explanations).
+
+#### C++ 20 Compatible Compiler Installation
+
+Check if system compiler already have the capability, if so, this step can be skipped.
+
+To install a C++ 20 compatible compiler in the virtual environment, for example, `gcc=12.1.0`, run
+
+```bash
+conda install -c conda-forge gcc=12.1.0
+```
+
+#### Protobuf Installation
+
+Install protobuf compiler and runtime library (modified from
+[PROTOBUF_CMAKE](https://github.com/protocolbuffers/protobuf/blob/main/cmake/README.md)).
+Currently, we are using version `v30.2`.
+
+```bash
+# clone the protobuf repository somewhere
+git clone https://github.com/protocolbuffers/protobuf.git
+cd protobuf
+# init and switch to desired version
+git submodule update --init --recursive
+git checkout v30.2
+# make & install to ~/.local
+mkdir build && cd build
+cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+         -DBUILD_SHARED_LIBS=ON \
+         -Dprotobuf_BUILD_SHARED_LIBS=ON \
+         -Dprotobuf_BUILD_TESTS=OFF \
+         -DCMAKE_CXX_STANDARD=17 \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DCMAKE_INSTALL_PREFIX="$HOME/.local"
+cmake --build . --config Release -j
+make install -j
+```
+
+#### Build MSys Shared Library and Position the Output Product to `src/monitoring_sys`
+
+Run the following commands in the project's build folder.
+
+```bash
+# enter the python virtual environment
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make libmsys_pymod -j
+```
+
+Make sure you see something like `libmsys.cpython-310-x86_64-linux-gnu.so` (the exact name could depend on your python version and architecture), that is the *cpython* module for the monitoring system executable.
 
 ## Running RAGPerf
 
