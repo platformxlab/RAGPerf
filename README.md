@@ -140,7 +140,7 @@ RAGPerf provides an Interactive Web UI for ease of use. Or you can use the Comma
 
 #### Preparation
 
-Set these once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell
+Set these once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell.
 
 ```bash
 # Make local "src" importable
@@ -177,7 +177,7 @@ In the execute page, click the `START BENCHMARK` button to execute the workload 
 
 #### Preparation
 
-Set these environment variables once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell
+Set these environment variables once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell.
 
 ```bash
 # Make local `src` module importable
@@ -214,7 +214,7 @@ python3 src/run_new.py \
   --msys-config config/monitor/example_config.yaml
 ```
 
-To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameters are listed [here](config/README.md)
+To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameters are listed [here](config/README.md).
 
 #### Performing Analysis
 
@@ -224,10 +224,10 @@ You can check the output result within the `./output` folder. To visualize the o
 
 ### Vector Databases
 
-RAGPerf already integrates with many popular vector databases. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
+RAGPerf already integrates with many popular vector databases. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md).
 
 Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database). This benchmark suit can automatically perform profiling and analysis on your desired vector database after implementing these APIs.
 
 ### Monitoring System
 
-Examples of how to use it are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md)
+Examples of how to use it are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md).
