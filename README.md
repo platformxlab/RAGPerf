@@ -1,4 +1,4 @@
-# RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems
+# RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems <!-- omit from toc -->
 
 **RAGPerf** is an open-source framework designed to benchmark the end-to-end system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers a user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
@@ -16,13 +16,13 @@
 
 ## Key Features
 
-**🚀 Holistic System-Centric Benchmarking**: RAGPerf moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdowns, and hardware efficiency. This helps developers identify whether a bottleneck lies in I/O-bound retrieval or compute-bound prefill/decoding stages.
+**🚀 Holistic System-Centric Benchmarking**: RAGPerf moves beyond simple accuracy metrics to profile the performance of RAG systems. It measures end-to-end throughput (QPS), latency breakdowns, and hardware efficiency. This helps developers identify potential bottlenecks throughout the entire pipeline.
 
-**🧩 Modular Architecture**: RAGPerf uses a configuration-driven design that abstracts the RAG pipeline (Embedding, Vector Database, Reranking, and Generation) behind uniform interfaces. Users can seamlessly switch components (e.g., switching from Milvus to LanceDB, or ChatGPT to Qwen) without rewriting code. This enables detailed performance comparisons between different components.
+**🧩 Modular Architecture**: RAGPerf uses a modular design that abstracts different stages of the RAG pipeline (Embedding, Vector Database, Reranking, and Generation) behind uniform interfaces. Users can seamlessly switch components (e.g., switching underlyinig vector database from Milvus to LanceDB, or change underlying generative model from ChatGPT to Qwen) without rewriting code. This enables detailed performance comparisons between different pipelines.
 
-**📊 Detailed Full-Stack Profiling**: RAGPerf integrates a lightweight system profiler that runs as a background daemon. It captures granular hardware metrics with minimal overhead, including GPU/CPU utilization, memory usage (host RAM vs. GPU VRAM), PCIe throughput, and Disk I/O. This allows for deep analysis of resource contention between RAG components.
+**📊 Detailed Full-Stack Profiling**: RAGPerf integrates a lightweight system profiler that runs as a background daemon. It captures fine-grained hardware metrics with minimal overhead, including GPU/CPU utilization, memory consumptions (host RAM & GPU VRAM), PCIe throughput, and disk I/O utilization. This allows detailed analysis of resource utilization between RAG components and help finding potential contention issues.
 
-**🔄 Dynamic Workload Generation**: RAGPerf is able to simulate the evolution of real-world knowledge bases. The workload generator also supports queries with insert, update, and delete operations, allows users to measure how these operations impact data freshness and overall system performance.
+**🔄 Simulating Real-World Scenarios**: RAGPerf is able to simulate the evolution of real-world knowledge bases by synthesizing updates with a custom and configurable workload generator. The workload generator supports generating insert, update, and delete requests at different frequency and patterns, allowing users to estimate how data freshness and overall system performance varies in real systems.
 
 **🖼️ Multi-Modal Capabilities**: RAGPerf supports diverse data modalities beyond plain text. It provides specialized pipelines including Visual RAG (PDFs, Images) using OCR or ColPali visual embeddings, and Audio RAG using ASR models like Whisper. This enables benchmarking of complex, unstructured RAG pipelines.
 
@@ -31,28 +31,29 @@
 <!-- omit from toc -->
 ## Table of Contents
 
-- [RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems](#ragperf-an-end-to-end-benchmarking-framework-for-retrieval-augmented-generation-systems)
-  - [Key Features](#key-features)
-  - [Installation](#installation)
-    - [1) Create a virtual environment](#1-create-a-virtual-environment)
-    - [2) Python dependencies](#2-python-dependencies)
-    - [3) Install monitor system](#3-install-monitor-system)
-  - [Running RAGPerf](#running-ragperf)
-    - [Quick Start with Web UI](#quick-start-with-web-ui)
-      - [1) Preparation](#1-preparation)
-      - [2) Configure the benchmark and run](#2-configure-the-benchmark-and-run)
-    - [Run with Command Line (CLI)](#run-with-command-line-cli)
-      - [1) Preparation](#1-preparation-1)
-      - [2) Running the Benchmark](#2-running-the-benchmark)
-      - [3) Output Analysis](#3-output-analysis)
-  - [Supported RAG Pipeline Modules](#supported-rag-pipeline-modules)
-    - [VectorDB](#vectordb)
-    - [Monitoring System](#monitoring-system)
+- [Key Features](#key-features)
+- [Installation](#installation)
+  - [Create a Virtual Environment](#create-a-virtual-environment)
+  - [Install Dependencies](#install-dependencies)
+  - [Install Monitoring System](#install-monitoring-system)
+- [Running RAGPerf](#running-ragperf)
+  - [Quick Start with Web UI](#quick-start-with-web-ui)
+    - [Preparation](#preparation)
+    - [Configuring the Benchmark](#configuring-the-benchmark)
+    - [Running the Benchmark](#running-the-benchmark)
+  - [Run with Command Line Interface](#run-with-command-line-interface)
+    - [Preparation](#preparation-1)
+    - [Running the Benchmark](#running-the-benchmark-1)
+    - [Performing Analysis](#performing-analysis)
+- [Supported RAG Pipeline Modules](#supported-rag-pipeline-modules)
+  - [Vector Databases](#vector-databases)
+  - [Monitoring System](#monitoring-system)
 
 ## Installation
 
-### 1) Create a virtual environment
-To run RAGPerf, we highly recommend using an isolated Python environment (e.g., Conda).
+### Create a Virtual Environment
+
+To run RAGPerf, we highly recommend using an isolated Python environment using a Python virtual environment manager (e.g., `venv`, `conda`) to avoid package conflicts, we use `conda` for demonstrating purposes throughout the documentation.
 
 **Conda (recommended)**
 ```bash
@@ -61,7 +62,8 @@ conda create -n RAGPerf python=3.10
 conda activate RAGPerf
 ```
 
-### 2) Python dependencies
+### Install Dependencies
+
 Execute the following instructions to install all the dependencies for the project.
 We use `pip-tools` to ensure reproducible dependency resolution.
 
@@ -69,23 +71,30 @@ We use `pip-tools` to ensure reproducible dependency resolution.
 # install pip-compile for python package dependency resolution
 python3 -m pip install pip-tools
 
-# Generate list of all required python packages
+# generate list of all required python packages
 mkdir build && cd build
 cmake ..
 make generate_py3_requirements
+
+# install the dependencies
 python3 -m pip install -r ../requirement.txt
 ```
 
-### 3) Install monitor system
+### Install Monitoring System
+
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
 RAGPerf uses a custom, low-overhead monitoring daemon. Please refer to the documentation at [MonitoringSystem README](monitoring_sys/README.md) for compilation and installation instructions.
 
 ## Running RAGPerf
+
 RAGPerf provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
 
 ### Quick Start with Web UI
-#### 1) Preparation
-Set these once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell:
+
+#### Preparation
+
+Set these once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell
+
 ```bash
 # Make local "src" importable
 export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
@@ -93,37 +102,53 @@ export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
 # Where to cache Hugging Face models (optional, adjust path as needed)
 export HF_HOME="/mnt/data/hf_home"
 ```
+
 Install streamlit and run the RAGPerf client.
+
 ```bash
 # install streamlit
 python3 -m pip install streamlit
 # run RAGPerf
 streamlit run ui_client.py
 ```
+
 Open the UI with the reported url in your web browser, the default url is `http://localhost:8501`.
 
-#### 2) Configure the benchmark and run
-To run the benchmark, we first need to set up the retriever like a vectorDB. See [vectordb](#vectordb). Then, on the webpage, customize your own workload setting. ![config](./doc/figures/ragconfig.png)
+#### Configuring the Benchmark
 
-Then in the execute page, click execute to execute the workload. You may also need to check the config file before the execution, see [here](./config/README.md) for config explanation. ![config](./doc/figures/run.png)
+To run the benchmark, we first need to set up the vector database (See [vectordb](#vectordb) for more details). Then, customize your own workload settings with all the available options on the webpage.
 
-### Run with Command Line (CLI)
-#### 1) Preparation
-Set these once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell:
+![config](./doc/figures/ragconfig.png)
+
+#### Running the Benchmark
+
+In the execute page, click the `START BENCHMARK` button to execute the workload already configured. You may also want to check if all the configs are set correctly, see [here](./config/README.md) for the detailed explanation for different entries in the config file.
+
+![config](./doc/figures/run.png)
+
+### Run with Command Line Interface
+
+#### Preparation
+
+Set these environment variables once in your shell rc file (e.g., `~/.bashrc` or `~/.zshrc`) or export them in every new shell
+
 ```bash
-# Make local "src" importable
+# Make local `src` module importable
 export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
 
 # Where to cache Hugging Face models (optional, adjust path as needed)
 export HF_HOME="/mnt/data/hf_home"
 ```
 
-#### 2) Running the Benchmark
-To run the benchmark, you first need to set up the vectorDB as the retriever. See [vectordb](#vectordb) for a supported list and quick setup guide. Change the db_path to your local vectordb path in config file.
-```
+#### Running the Benchmark
+
+To run the benchmark, you first need to set up the vector database as the retriever. See [vectordb](#vectordb) for a supported list and quick setup guide. Change the db_path to your local vector database storage path in config file.
+
+```yaml
 vector_db:
     db_path: /mnt/data/vectordb
 ```
+
 First run the **preprocess/insert** phase to insert the dataset:
 
 ```bash
@@ -132,25 +157,29 @@ python3 src/run_new.py \
   --config config/lance_insert.yaml \
   --msys-config config/monitor/example_config.yaml
 ```
+
 After the insertion stage, proceed to the **query/evaluate** stage. Run the following:
+
 ```bash
 # 2) Retrieval and Query
 python3 src/run_new.py \
   --config config/lance_query.yaml \
   --msys-config config/monitor/example_config.yaml
 ```
+
 To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameters are listed [here](config/README.md)
 
-#### 3) Output Analysis
+#### Performing Analysis
+
 You can check the output result within the `./output` folder. To visualize the output results, run `python3 example/monitoring_sys_lib/test_parser.py`, the visualized figures will be located within the `./output`.
 
 ## Supported RAG Pipeline Modules
 
-### VectorDB
+### Vector Databases
 
-RAGPerf already integrates with many popular vectorDBs. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
+RAGPerf already integrates with many popular vector databases. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md)
 
-Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database) to standardize operations. To add a new database
+Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database). This benchmark suit can automatically perform profiling and analysis on your desired vector database after implementing these APIs.
 
 ### Monitoring System
 
