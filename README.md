@@ -31,7 +31,6 @@
 <!-- omit from toc -->
 ## Table of Contents
 
-- [Key Features](#key-features)
 - [Installation](#installation)
   - [Create a Virtual Environment](#create-a-virtual-environment)
   - [Install Dependencies](#install-dependencies)
