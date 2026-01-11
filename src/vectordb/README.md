@@ -19,16 +19,13 @@ We currently support the following vector databases and index types:
 
 ## 🛠️ Setup Instructions by Type
 
-Before running the benchmark, ensure you have installed the necessary Python drivers. If you followed the main installation guide, these should already be in your environment.
+Before running the benchmark, ensure you have installed the necessary Python dependencies. If you followed the main installation guide, these should already be in your environment.
 
 ### 1. LanceDB (Recommended for Local Testing)
 
-LanceDB runs in-process and does not require a separate server.
+LanceDB does not require a separate server installation. To install lanceDB, run `pip install lancedb`.
 
-* **Prerequisites:** `pip install lancedb`
-* **Storage:** Data is stored in a local directory (e.g., `./lancedb_data`).
-
-**Configuration (`config/your_config.yaml`):**
+Change the configuration (`config/your_config.yaml`):
 ```yaml
 vector_db:
   type: "lancedb"
@@ -52,7 +49,7 @@ vector_db:
   type: milvus
 ```
 
-3. Qdrant (Docker)
+### 3. Qdrant (Docker)
 To use Qdrant, run the official Docker container. This exposes the database on port 6333.
 
 ```bash
@@ -70,29 +67,25 @@ vector_db:
   # db_token: "your-api-key"
 ```
 
-4. Chroma (Embedded or Client/Server)
-Chroma is often used in an embedded mode (similar to LanceDB) but can also run as a server. The default setup here assumes a persistent local storage mode.
+### 4. Chroma (Embedded or Client/Server)
+Chroma is often used in an embedded mode (similar to LanceDB) but can also run as a server. To quickly set up the chroma, run `pip install chroma_db`.
 
-* **Prerequisites:** `pip install chroma_db`
-* **Storage:** Data is stored in a local directory (e.g., `./chroma_data`).
-
+Change the configuration to use Chroma:
 ```yaml
 vector_db:
   type: "chroma"
-  db_path: "./chroma_data" # Local path for persistence
+  db_path: "./chroma_data" # Local path for db data storage
   collection_name: "chroma_test"
 ```
 
-5. Elasticsearch (Docker with kNN)
-Elasticsearch  supports dense vector search natively. Ensure you have the necessary memory allocated to Docker.
-
-* Run Elasticsearch with docker:
+###  5. Elasticsearch (Docker with kNN)
+Elasticsearch supports dense vector search natively. Ensure you have the necessary memory allocated to Docker. Run Elasticsearch with docker:
 ```bash
 docker run -p 9200:9200 -e "discovery.type=single-node" \
   -e "xpack.security.enabled=false" \
   -m 4GB docker.elastic.co/elasticsearch/elasticsearch:8.11.1
 ```
-Configuration:
+Change the configuration to include the elasticsearch url:
 ```yaml
 vector_db:
   type: "elasticsearch"
