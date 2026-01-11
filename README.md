@@ -2,9 +2,6 @@
 
 **RAGPerf** is an open-source framework designed to benchmark the end-to-end system performance of Retrieval-Augmented Generation (RAG) applications. Built with a fully modular architecture, it offers a user-friendly and highly customizable framework that allows precise measurement of throughput, latency, and scalability across different RAG configurations.
 
-<!-- CI/CD Status -->
-[![C/C++ Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/clang-format.yml)
-[![Python Format Check](https://github.com/platformxlab/RAGPerf/actions/workflows/black-format.yml/badge.svg)](https://github.com/platformxlab/RAGPerf/actions/workflows/black-format.yml)
 
 <!-- Repo Characteristics -->
 ![CMake](https://img.shields.io/badge/CMake-008fba.svg?style=flat&logo=cmake&logoColor=ffffff)
