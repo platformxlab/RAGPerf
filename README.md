@@ -90,7 +90,7 @@ RAGPerf uses a custom, low-overhead monitoring daemon. Here is a stripped down v
 
 #### C++ 20 Compatible Compiler Installation
 
-Install a C++ 20 compatible compiler in the virtual environment, for example, `gcc=12.1.0`, run
+Install a C++ 20 compatible compiler in the virtual environment. For example, to install `gcc=12.1.0`, run
 
 ```bash
 conda install -c conda-forge gcc=12.1.0
@@ -130,7 +130,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make libmsys_pymod -j
 ```
 
-Make sure you see something like `libmsys.cpython-310-x86_64-linux-gnu.so` (the exact name could depend on your python version and architecture), that is the *cpython* module for the monitoring system executable.
+Make sure you see the file `libmsys.cpython-310-x86_64-linux-gnu.so` (the exact name could depend on your python version and architecture), that is the *cpython* module for the monitoring system executable.
 
 ## Running RAGPerf
 
