@@ -37,7 +37,6 @@
   - [Install Dependencies](#install-dependencies)
   - [Install Monitoring System](#install-monitoring-system)
     - [C++ 20 Compatible Compiler Installation](#c-20-compatible-compiler-installation)
-    - [Protobuf Installation](#protobuf-installation)
     - [Build MSys Shared Library and Position the Output Product to `src/monitoring_sys`](#build-msys-shared-library-and-position-the-output-product-to-srcmonitoring_sys)
 - [Running RAGPerf](#running-ragperf)
   - [Quick Start with Web UI](#quick-start-with-web-ui)
@@ -67,8 +66,7 @@ conda activate RAGPerf
 
 ### Install Dependencies
 
-Execute the following instructions to install all the dependencies for the project.
-We use `pip-tools` to ensure reproducible dependency resolution.
+Execute the following instructions to install all the dependencies for the project. We use `pip-tools` to ensure reproducible dependency resolution.
 
 ```bash
 # install pip-compile for python package dependency resolution
@@ -94,30 +92,6 @@ Install a C++ 20 compatible compiler in the virtual environment. For example, to
 
 ```bash
 conda install -c conda-forge gcc=12.1.0
-```
-
-#### Protobuf Installation
-
-Install protobuf compiler and runtime library (modified from [PROTOBUF_CMAKE](https://github.com/protocolbuffers/protobuf/blob/main/cmake/README.md)). Currently, we are using version `v30.2`.
-
-```bash
-# clone the protobuf repository somewhere
-git clone https://github.com/protocolbuffers/protobuf.git
-cd protobuf
-# init and switch to desired version
-git submodule update --init --recursive
-git checkout v30.2
-# make & install to ~/.local
-mkdir build && cd build
-cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-         -DBUILD_SHARED_LIBS=ON \
-         -Dprotobuf_BUILD_SHARED_LIBS=ON \
-         -Dprotobuf_BUILD_TESTS=OFF \
-         -DCMAKE_CXX_STANDARD=17 \
-         -DCMAKE_BUILD_TYPE=Release \
-         -DCMAKE_INSTALL_PREFIX="$HOME/.local"
-cmake --build . --config Release -j
-make install -j
 ```
 
 #### Build MSys Shared Library and Position the Output Product to `src/monitoring_sys`
@@ -150,7 +124,7 @@ export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
 export HF_HOME="/mnt/data/hf_home"
 ```
 
-Install streamlit and run the RAGPerf client.
+Install `streamlit` and run the RAGPerf client.
 
 ```bash
 # install streamlit
@@ -181,7 +155,8 @@ Set these environment variables once in your shell rc file (e.g., `~/.bashrc` or
 
 ```bash
 # Make local `src` module importable
-export PYTHONPATH="$REPO_ROOT/src${PYTHONPATH+:$PYTHONPATH}"
+# set variable REPO_ROOT to correct path to the repo
+export PYTHONPATH="$REPO_ROOT/src$PYTHONPATH"
 
 # Where to cache Hugging Face models (optional, adjust path as needed)
 export HF_HOME="/mnt/data/hf_home"
@@ -196,7 +171,7 @@ vector_db:
     db_path: /mnt/data/vectordb
 ```
 
-First run the **preprocess/insert** phase to insert the dataset:
+First run the **preprocess/insert** phase to insert the dataset.
 
 ```bash
 # 1) Build/insert into the vector store (LanceDB example)
@@ -205,7 +180,7 @@ python3 src/run_new.py \
   --msys-config config/monitor/example_config.yaml
 ```
 
-After the insertion stage, proceed to the **query/evaluate** stage. Run the following:
+After the insertion stage, proceed to the **query/evaluate** stage.
 
 ```bash
 # 2) Retrieval and Query
@@ -214,11 +189,11 @@ python3 src/run_new.py \
   --msys-config config/monitor/example_config.yaml
 ```
 
-To customize your own workload setting, you may reference the provided config file within `./config` folder. The detailed parameters are listed [here](config/README.md).
+To customize your own workload setting, you may reference the provided config file within `config` folder. The detailed parameters are listed [here](config/README.md).
 
 #### Performing Analysis
 
-You can check the output result within the `./output` folder. To visualize the output results, run `python3 example/monitoring_sys_lib/test_parser.py`, the visualized figures will be located within the `./output`.
+You can check the output result within the `output` folder. To visualize the output results, run `python3 example/monitoring_sys_lib/test_parser.py`, the visualized figures will be located within the `output`.
 
 ## Supported RAG Pipeline Modules
 
