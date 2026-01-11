@@ -83,7 +83,7 @@ python3 -m pip install -r ../requirement.txt
 ### Install Monitoring System
 
 <!-- REVIEW: Put installation instructions here instead of readme in monitoring system module -->
-RAGPerf uses a custom, low-overhead monitoring daemon. Here is a stripped down version of installation procedures (please refer to [MonitoringSystem README](monitoring_sys/README.md) for more detailed instructions and explanations).
+RAGPerf uses a custom, low-overhead monitoring daemon. Here is a stripped-down version of the installation procedure (please refer to [MonitoringSystem README](monitoring_sys/README.md) for detailed instructions and explanations).
 
 #### C++ 20 Compatible Compiler Installation
 
@@ -93,7 +93,7 @@ Install a C++ 20 compatible compiler in the virtual environment. For example, to
 conda install -c conda-forge gcc=12.1.0
 ```
 
-#### Build MSys Shared Library and Position the Output Product to `src/monitoring_sys`
+#### Build MSys Shared Library and Position the Output to `src/monitoring_sys`
 
 Run the following commands in the project's build folder.
 
@@ -103,11 +103,11 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make libmsys_pymod -j
 ```
 
-Make sure you see the file `libmsys.cpython-310-x86_64-linux-gnu.so` (the exact name could depend on your python version and architecture), that is the *cpython* module for the monitoring system executable.
+Make sure you see the file `libmsys.cpython-310-x86_64-linux-gnu.so` (the exact name could depend on your python version and architecture), this is the *cpython* module for the monitoring system executable.
 
 ## Running RAGPerf
 
-RAGPerf provides an Interactive Web UI for ease of use. Or you can use the Command Line (CLI) for automation.
+RAGPerf provides an Interactive Web UI for ease of use. And of course, you can use the Command Line (CLI) for automation.
 
 ### Quick Start with Web UI
 
@@ -142,7 +142,7 @@ To run the benchmark, we first need to set up the vector database (See [vectordb
 
 #### Running the Benchmark
 
-In the execute page, click the `START BENCHMARK` button to execute the workload already configured. You may also want to check if all the configs are set correctly, see [here](./config/README.md) for the detailed explanation for different entries in the config file.
+In the execute page, click the `START BENCHMARK` button to execute the workload already configured. You may also want to check if all the configs are set correctly, see [here](./config/README.md) for detailed explanation of different entries in the config file.
 
 ![config](./doc/figures/run.png)
 
@@ -188,7 +188,7 @@ python3 src/run_new.py \
   --msys-config config/monitor/example_config.yaml
 ```
 
-To customize your own workload setting, you may reference the provided config file within `config` folder. The detailed parameters are listed [here](config/README.md).
+To customize your own workload setting, you may refer to the provided config file within `config` folder. The detailed parameters are listed [here](config/README.md).
 
 #### Performing Analysis
 
@@ -198,10 +198,10 @@ You can check the output result within the `output` folder. To visualize the out
 
 ### Vector Databases
 
-RAGPerf already integrates with many popular vector databases. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md).
+RAGPerf supports many popular vector databases. To set up, check the detailed documentations at [VectorDB README](src/vectordb/README.md).
 
-Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database). This benchmark suit can automatically perform profiling and analysis on your desired vector database after implementing these APIs.
+Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/README.md#adding-a-new-vector-database). This benchmark suit can automatically perform profiling and analysis on your vector database after implementing these APIs.
 
 ### Monitoring System
 
-Examples of how to use it are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md).
+Examples of how to use the monitoring system are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md).
