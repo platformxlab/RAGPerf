@@ -1,0 +1,80 @@
+name: Python Format Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  cmake-version: "3.22.6"
+  python-version: "3.10"
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # === Get CMake ===
+    - name: Setup CMake
+      id: setup-cmake
+      uses: ./.github/actions/cmake-setup
+      with:
+        cmake-version: ${{ env.cmake-version }}
+
+    # === Get Python3 ===
+    - name: Set up Python3
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.python-version }}
+
+    # === CMake configuration ===
+    - name: Initialize Build System
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        ${{ env.cmake-exe }} -B ${{github.workspace}}/build -DFORMATTING_ONLY=ON
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target help
+
+    # === Check for CMake format check target ===
+    - name: Check CMake Format Target
+      id: check-cmake-format-target
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        # skip download if target is found
+        if ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target help | grep -q "python-check-format"; then
+          echo "black-found=true" >> "${GITHUB_OUTPUT}"
+        else
+          echo "black-found=false" >> "${GITHUB_OUTPUT}"
+        fi
+
+    # === Get Python3 black formatter ===
+    - name: Get Python3 Black Formatter
+      if: steps.check-cmake-format-target.outputs.black-found != 'true'
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        # install_black_py3pkg_requirements target will only be available if the black package is not found
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target install_black_py3pkg_requirements
+
+    # === Redo the CMake configuration ===
+    - name: Initialize Build System Again
+      if: steps.check-cmake-format-target.outputs.black-found != 'true'
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        ${{ env.cmake-exe }} -B ${{github.workspace}}/build -DFORMATTING_ONLY=ON
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target help
+
+    # === Format check ===
+    - name: Python Format Check
+      env:
+        cmake-exe: ${{ steps.setup-cmake.outputs.cmake-path }}
+      run: |
+        ${{ env.cmake-exe }} --build ${{github.workspace}}/build --target python-check-format

@@ -1,0 +1,89 @@
+/* NOTE: Assumes %d and %u are 32-bit, %ld %lu, %lld, and %llu are 64-bit
+ * integers on a conventional 64-bit system. */
+
+// Refer to https://man7.org/linux/man-pages/man5/proc_pid_stat.5.html
+message ProcPIDStatMetrics {
+    reserved 1, 2, 4, 5, 6, 7, 8, 9, 21, 22;
+    // [NT]  int32  pid         = 1;
+    // [NT]  string comm        = 2;
+    optional uint32 state       = 3; // stored in uint32, but is actually a char
+    // [NT]  int32  ppid        = 4;
+    // [NT]  int32  pgrp        = 5;
+    // [NT]  int32  session     = 6;
+    // [NT]  int32  tty_nr      = 7;
+    // [NT]  int32  tpgid       = 8;
+    // [NT]  uint64 flags       = 9;
+    optional uint64 minflt      = 10;
+    optional uint64 cminflt     = 11;
+    optional uint64 majflt      = 12;
+    optional uint64 cmajflt     = 13;
+    optional uint64 utime       = 14;
+    optional uint64 stime       = 15;
+    optional int64  cutime      = 16;
+    optional int64  cstime      = 17;
+    optional int64  priority    = 18;
+    optional int64  nice        = 19;
+    optional uint64 num_threads = 20;
+    // [NT]  int64 itrealvalue  = 21;
+    // [NT]  uint64 starttime   = 22;
+    optional uint64 vsize       = 23;
+}
+
+// Refer to https://man7.org/linux/man-pages/man5/proc_pid_statm.5.html
+// stats measured in pages
+message ProcPIDStatmMetrics {
+    optional uint64 size       = 1;
+    optional uint64 resident   = 2;
+    optional uint64 share      = 3;
+    optional uint64 text       = 4;
+    optional uint64 lib        = 5;
+    optional uint64 data       = 6;
+    optional uint64 dt         = 7;
+}
+
+// Refer to https://man7.org/linux/man-pages/man5/proc_pid_io.5.html
+/* If the process is spawned by a privileged user or by some system-level
+ * service (e.g., docker), other processes may not have access to /proc/<pid>/io
+ * files, and reading it would result in "Permission denied". In this case, it
+ * is better to place probe on corresponding cgroup (in docker case).
+ * Do !!!NOT!!! spawn the monitor using root privileges, it is not currently
+ * tested */
+message ProcPIDIOMetrics {
+    optional uint64 rchar                 = 1; // bytes read
+    optional uint64 wchar                 = 2; // bytes written
+    optional uint64 syscr                 = 3; // read syscalls
+    optional uint64 syscw                 = 4; // write syscalls
+    optional uint64 read_bytes            = 5; // bytes read from disk
+    optional uint64 write_bytes           = 6; // bytes written to disk
+    optional uint64 cancelled_write_bytes = 7; // bytes written that were cancelled
+}
+
+message PerProcMetrics {
+    optional ProcPIDStatMetrics  pid_stat_metrics  = 1;
+    optional ProcPIDStatmMetrics pid_statm_metrics = 2;
+    optional ProcPIDIOMetrics    pid_io_metrics    = 3;
+}
+
+message ProcMetrics {
+    optional uint64         timestamp        = 1;
+    repeated PerProcMetrics per_proc_metrics = 2;
+}
+
+message ProcMetricsTimeSeries {
+    repeated ProcMetrics metrics = 1;
+}
+
+message ProcMetadata {
+    enum Probe {
+        STAT  = 0;
+        STATM = 1;
+        IO    = 2;
+    };
+    optional string proc_name = 1;
+    optional uint64 pid       = 2;
+    repeated Probe probes     = 3;
+}
+
+message ProcMetricsMetadata {
+    repeated ProcMetadata proc_meta = 1;
+}

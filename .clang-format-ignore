@@ -1,0 +1,7 @@
+# apart from all the .gitignores, what else files should be
+# ignored by the clang formatter
+.git/
+.github/
+third_party/*
+*/generated/*
+build/*

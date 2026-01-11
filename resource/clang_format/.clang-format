@@ -1,0 +1,23 @@
+Language: Cpp
+BasedOnStyle: Google
+
+IndentWidth: 4
+ColumnLimit: 100
+IndentAccessModifiers: false
+AccessModifierOffset: -2
+
+IncludeBlocks: Preserve
+
+DerivePointerAlignment: false
+PointerAlignment: Right
+AlignAfterOpenBracket: AlwaysBreak
+AlignConsecutiveMacros: true
+AlignEscapedNewlines: Right
+
+ReflowComments: true
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: false

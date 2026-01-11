@@ -1,0 +1,45 @@
+/* NOTE: Assumes %d and %u are 32-bit, %ld %lu, %lld, and %llu are 64-bit
+ * integers on a conventional 64-bit system. */
+
+// Refer to https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
+// All the time is measured in milliseconds (ms).
+message PerDiskMetrics {
+    reserved 1, 2, 3;
+    // [NT]  uint32 major                  = 1;
+    // [NT]  uint32 minor                  = 2;
+    // [NT]  string dev_name               = 3;
+    optional uint64 reads_completed        = 4;
+    optional uint64 reads_merged           = 5;
+    optional uint64 sectors_read           = 6;
+    optional uint64 time_spent_reading     = 7;
+    optional uint64 writes_completed       = 8;
+    optional uint64 writes_merged          = 9;
+    optional uint64 sectors_written        = 10;
+    optional uint64 time_spent_writing     = 11;
+    optional uint64 io_in_progress         = 12;
+    optional uint64 time_spent_io          = 13;
+    optional uint64 weighted_time_spent_io = 14;
+    optional uint64 discard_completed      = 15;
+    optional uint64 discard_merged         = 16;
+    optional uint64 discard_sectors        = 17;
+    optional uint64 time_spent_discarding  = 18;
+    optional uint64 flush_completed        = 19;
+    optional uint64 time_spent_flushing    = 20;
+}
+
+message DiskMetrics {
+    optional uint64         timestamp    = 1;
+    repeated PerDiskMetrics disk_metrics = 2;
+}
+
+message DiskMetricsTimeSeries {
+    repeated DiskMetrics metrics   = 1;
+}
+
+message DiskMetadata {
+    optional string dev_name = 1;
+}
+
+message DiskMetricsMetadata {
+    repeated DiskMetadata disk_meta = 1;
+}

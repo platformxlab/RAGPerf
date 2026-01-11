@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+# path from root of the repository
+force-exclude = '''
+(
+    \.pyi$
+    | \.git/
+    | \.github/
+    | resource/
+    | third_party/
+    | .*/generated/
+    | build/
+    | .*/__pycache__/
+    | .*/*_pb2.py
+)
+'''

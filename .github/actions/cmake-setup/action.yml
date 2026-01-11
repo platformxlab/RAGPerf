@@ -1,0 +1,69 @@
+name: "Setup CMake"
+description: "Download/cache specific CMake version"
+
+inputs:
+  cmake-version:
+    description: 'CMake version'
+    required: true
+  cmake-cache-path:
+    description: 'Path to cache CMake'
+    required: false
+    default: ~/.cache
+outputs:
+  cmake-path:
+    description: 'Path to the CMake executable'
+    value: ${{ steps.add-cmake-to-path.outputs.cmake-path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Variables
+      id: variables
+      run: |
+        CMAKE_VERSION="${{ inputs.cmake-version }}"
+        CMAKE_COMPRESSED="cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz"
+        CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_COMPRESSED}"
+        CMAKE_SHA256_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-SHA-256.txt"
+        CMAKE_CACHE_PATH="${{ inputs.cmake-cache-path }}/cmake-${CMAKE_VERSION}"
+
+        echo "cmake-version=${CMAKE_VERSION}" >> "${GITHUB_OUTPUT}"
+        echo "cmake-compressed=${CMAKE_COMPRESSED}" >> "${GITHUB_OUTPUT}"
+        echo "cmake-url=${CMAKE_URL}" >> "${GITHUB_OUTPUT}"
+        echo "cmake-sha256-url=${CMAKE_SHA256_URL}" >> "${GITHUB_OUTPUT}"
+        echo "cmake-cache-path=${CMAKE_CACHE_PATH}" >> "${GITHUB_OUTPUT}"
+      shell: bash
+
+    - name: Cache CMake
+      id: cache-cmake
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.variables.outputs.cmake-cache-path }}
+        key: ${{ runner.os }}-cmake-${{ inputs.cmake-version }}
+
+    - name: Download & Extract CMake
+      if: steps.cache-cmake.outputs.cache-hit != 'true'
+      run: |
+        # Download CMake and its SHA256 file
+        curl -L "${{ steps.variables.outputs.cmake-url }}" -o "${{ steps.variables.outputs.cmake-compressed }}"
+        curl -L "${{ steps.variables.outputs.cmake-sha256-url }}" -o cmake.sha256
+
+        # Extract the expected SHA256 from the file
+        EXPECTED_SHA=$(
+          grep "${{ steps.variables.outputs.cmake-compressed }}" "cmake.sha256" |
+          awk '{ print $1 }'
+        )
+
+        # Verify the SHA256 checksum
+        echo "${EXPECTED_SHA} ${{ steps.variables.outputs.cmake-compressed }}" | sha256sum -c -
+
+        # Create the cache directory and extract CMake
+        mkdir -p ${{ steps.variables.outputs.cmake-cache-path }}
+        tar -xzf "${{ steps.variables.outputs.cmake-compressed }}" --strip-components=1 -C ${{ steps.variables.outputs.cmake-cache-path }}
+      shell: bash
+
+    - name: Add CMake to PATH & Export CMake Executable Path
+      id: add-cmake-to-path
+      run: |
+        echo "${{ steps.variables.outputs.cmake-cache-path }}/bin" >> "${GITHUB_PATH}"
+        echo "cmake-path=${{ steps.variables.outputs.cmake-cache-path }}/bin/cmake" >> "${GITHUB_OUTPUT}"
+      shell: bash

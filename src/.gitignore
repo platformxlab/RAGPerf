@@ -1,0 +1,9 @@
+# Generated Product
+monitoring_sys/*.cpython*
+monitoring_sys/*.pyi
+
+proto/*
+
+*.bin
+*.yaml
+*.log

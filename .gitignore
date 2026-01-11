@@ -1,0 +1,22 @@
+# editor specific
+.vscode/
+
+# build directory
+build/
+
+# any database
+*.db
+
+# python
+.python_history
+.ptpython_history
+**/__pycache__/
+requirements.txt
+
+# build artifacts
+build/
+
+# dataset data
+*.csv
+*.arrow
+*.json

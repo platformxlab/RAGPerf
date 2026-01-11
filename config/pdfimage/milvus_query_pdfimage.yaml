@@ -1,0 +1,58 @@
+bench:
+  dataset: common-pile/arxiv_papers
+  type: image
+  preprocessing:
+    chunk_overlap: 0
+    chunk_size: 512
+    chunktype: length
+    dataset_ratio: 0.0001
+rag:
+  action:
+    preprocess: false
+    embedding: false
+    insert: false
+    build_index: false
+    reranking: false
+    retrieval: true
+    generation: true
+    evaluate: false
+  build_index:
+    index_type: IVF_HNSW_SQ
+    metric_type: L2
+  embedding:
+    device: cuda:0  
+    sentence_transformers_name: vidore/colpali-v1.2
+    batch_size: 1024
+    embedding_framework: sentence_transformers
+    model: nomic-ai/nomic-embed-text-v2-moe
+    store: false
+    load: false
+  insert:
+    batch_size: 512
+    collection_name: ''
+    drop_previous_collection: false
+  generation:
+    device: cuda:0
+    model: Qwen/Qwen2-VL-7B-Instruct
+  retrieval:
+    question_num: 2
+    retrieval_batch_size: 2
+    top_k: 2
+  pipeline:
+    batch_size: 2
+run_name: default_run
+sys:
+  devices:
+    cpu: cpu
+    gpu_count: 2
+    gpus:
+    - cuda:0
+    - cuda:1
+  log:
+    metrics_log: ./log/default_run.log
+  vector_db:
+    collection_name: 'image_text_test' 
+    db_path: http://localhost:19530
+    db_token: root:Milvus
+    drop_previous_collection: false
+    type: milvus
