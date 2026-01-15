@@ -203,7 +203,7 @@ Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/READM
 
 Examples of how to use the monitoring system are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md).
 
-
+## Citation
 
 Please consider citing us if you find RAGPerf useful in your research, we will release its full paper soon.
 
