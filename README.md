@@ -202,3 +202,16 @@ Want to add a new DB? Check our RAGPerf API at [VectorDB API](src/vectordb/READM
 ### Monitoring System
 
 Examples of how to use the monitoring system are documented in `example/monitoring_sys_lib`. Detailed documentations at [MonitoringSystem README](monitoring_sys/README.md).
+
+
+
+Please consider citing us if you find RAGPerf useful in your research, we will release its full paper soon.
+
+```bibtex
+@article{ragperf,
+author = {Shaobo Li and Eric Zhou and Yuan Xu and Nelson Mimura Gonzalez and Daniel Waddington and Swaminathan Sundararaman and Hubertus Franke and Jian Huang},
+title = {RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems},
+year = {2026},
+url = {[https://github.com/platformxlab/ragperf](https://github.com/platformxlab/ragperf)},
+}
+```
