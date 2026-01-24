@@ -71,6 +71,8 @@ python3 -m pip install pip-tools
 # generate list of all required python packages
 mkdir build && cd build
 cmake ..
+# if pip-tools is not installed, install it first
+python3 -m pip install pip-tools
 make generate_py3_requirements
 
 # install the dependencies

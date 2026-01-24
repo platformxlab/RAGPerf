@@ -168,9 +168,13 @@ function(generate_py3_requirements)
     set(GEN_PY3_PKGREQ_TARGET generate_py3_requirements)
     find_program(PIP_COMPILE_EXECUTABLE pip-compile)
     if(NOT PIP_COMPILE_EXECUTABLE)
+        string(ASCII 27 Esc)
         message(STATUS
+            "${Esc}[33m"
             "pip-compile not found, target ${GEN_PY3_PKGREQ_TARGET} will not be available. "
-            "To install pip-compile, run `python3 -m pip install pip-tools`")
+            "To install pip-compile, run `python3 -m pip install pip-tools`"
+            "${Esc}[m"
+        )
         return()
     endif()
 
