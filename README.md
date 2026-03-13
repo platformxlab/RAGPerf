@@ -207,7 +207,7 @@ Examples of how to use the monitoring system are documented in `example/monitori
 
 ## Citation
 
-Please consider citing us if you find RAGPerf useful in your research, we will release its full paper soon.
+Please consider citing us if you find RAGPerf useful in your research, the paper is available at arXiv: 
 
 ```bibtex
 @misc{ragperf2026,
