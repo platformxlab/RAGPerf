@@ -210,10 +210,13 @@ Examples of how to use the monitoring system are documented in `example/monitori
 Please consider citing us if you find RAGPerf useful in your research, we will release its full paper soon.
 
 ```bibtex
-@article{ragperf,
-author = {Shaobo Li and Eric Zhou and Yuan Xu and Nelson Mimura Gonzalez and Daniel Waddington and Swaminathan Sundararaman and Hubertus Franke and Jian Huang},
-title = {RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems},
-year = {2026},
-url = {[https://github.com/platformxlab/ragperf](https://github.com/platformxlab/ragperf)},
+@misc{ragperf2026,
+      title={RAGPerf: An End-to-End Benchmarking Framework for Retrieval-Augmented Generation Systems}, 
+      author={Shaobo Li and Yirui Zhou and Yuan Xu and Kevin Chen and Daniel Waddington and Swaminathan Sundararaman and Hubertus Franke and Jian Huang},
+      year={2026},
+      eprint={2603.10765},
+      archivePrefix={arXiv},
+      primaryClass={cs.PF},
+      url={https://arxiv.org/abs/2603.10765}, 
 }
 ```
